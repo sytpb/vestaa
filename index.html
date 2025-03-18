@@ -57,7 +57,7 @@
 
 
     <div
-        class="swiper-container w-3/4 h-3/4 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600/80 hidden overflow-hidden rounded-lg">
+        class="swiper-container w-3/4 h-3/4 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600/95 hidden overflow-hidden rounded-lg">
         <div id="swiper-wrapper" class="swiper-wrapper">
         </div>
         <div class="swiper-pagination w-10 h-10"></div>
@@ -72,19 +72,22 @@
     <script>
         const _products = {
             bag: [
-                { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
-                { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
-                { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
+                { sort: './assets/images/bag/bzd01', title: 'Textile Bag', desc: 'Fashionable Eco-friendly', count: 5 },
+                { sort: './assets/images/bag/zd01', title: 'Cardboard Bag', desc: 'Trendy Designer', count: 6 },
+                { sort: './assets/images/bag/zd02', title: 'Cardboard Bag', desc: 'Classic Elegant', count: 5 },
+                { sort: './assets/images/bag/fbd01', title: 'Canvas Bag', desc: 'Durable Versatile', count: 4 },
+                { sort: './assets/images/bag/fbd02', title: 'Canvas Bag', desc: 'Classic style', count: 6 },
+                { sort: './assets/images/bag/bwd01', title: 'Insulated Bag', desc: 'Durable Thermal', count: 5 },
+                { sort: './assets/images/bag/npz01', title: 'Kraft Paper Bag', desc: 'Natural Strong', count: 5 },
+                { sort: './assets/images/bag/dbd01', title: 'Tyvek Bag', desc: 'Durable lightweight', count: 7 }
+
             ],
             ornaments: [
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
+                { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 6 }
             ],
             notebook: [
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
+                { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 6 },
+                { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 6 }
             ]
         };
         let swiper; // Declare swiper outside
