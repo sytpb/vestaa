@@ -34,20 +34,31 @@
     </header>
 
     <div class="text-center p-6">
-        <div class="inline-flex space-x-4 bg-gray-800 p-2 rounded-full">
-            <button class="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500">Tab 1</button>
-            <button class="px-6 py-2 rounded-lg bg-gray-700">Tab 2</button>
-            <button class="px-6 py-2 rounded-lg bg-gray-700">Tab 3</button>
+        <div class="inline-flex space-x-4 bg-gray-800 px-4 py-2 rounded-full">
+            <button class="tab-btn px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500"
+                data-target="bag">Bag</button>
+            <button class="tab-btn px-6 py-2 rounded-lg bg-gray-700" data-target="ornaments">Ornaments</button>
+            <button class="tab-btn px-6 py-2 rounded-lg bg-gray-700" data-target="notebook">Notebook</button>
         </div>
     </div>
 
-    <section class="w-[70%] grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto" id="imageGrid">
+
+    <section class="w-[70%] m-auto" id="imageGrid">
+        <div id="bag" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto">
+            Bag Content
+        </div>
+        <div id="ornaments" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto hidden">
+
+        </div>
+        <div id="notebook" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto hidden">
+            Tab 3 Content
+        </div>
     </section>
 
 
     <div
         class="swiper-container w-1/2 h-1/2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/90 hidden overflow-hidden rounded-lg">
-        <div id="swiper-wrapper"  class="swiper-wrapper">
+        <div id="swiper-wrapper" class="swiper-wrapper">
         </div>
         <div class="swiper-pagination w-10 h-10"></div>
         <div class="swiper-button-prev text-white w-30 h-30"></div>
@@ -60,17 +71,17 @@
 
     <script>
         const imageData = [
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development' },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design' },
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development' },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design' },
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development' },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design' },
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development' },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design' },
+            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
+            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
+            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 5 },
+            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 5 },
         ];
 
-        const imageGrid = document.getElementById('imageGrid');
+        const imageGrid = document.getElementById('ornaments');
         imageData.forEach(item => {
             const imageCard = document.createElement('div');
             imageCard.className = 'image-card bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform';
@@ -107,10 +118,10 @@
         const swiperWrapper = document.getElementById('swiper-wrapper');
         let swiper;
 
-        function buildSwiper(imagePath) {
+        function buildSwiper(imagePath, count) {
             swiperWrapper.innerHTML = '';
             const basePath = imagePath.substring(0, imagePath.lastIndexOf('/'));
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= count; i++) {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide', 'flex', 'justify-center', 'items-center');
                 const img = document.createElement('img');
@@ -138,12 +149,13 @@
             });
         }
 
-        imageCards.forEach(card => {
+        imageCards.forEach((card, index) => {
             card.addEventListener('click', () => {
 
+                const { count } = imageData[index];
                 const img = card.querySelector('img');
                 if (img) {
-                    buildSwiper(img.src);
+                    buildSwiper(img.src, count);
                     swiperContainer.classList.remove('hidden');
                     swiperContainer.classList.add('flex');
                 }
@@ -164,6 +176,43 @@
         });
     </script>
 
+
+    <script>
+
+        function tabs() {
+            document.addEventListener("DOMContentLoaded", () => {
+                const tabButtons = document.querySelectorAll(".tab-btn");
+                const tabContents = document.querySelectorAll(".tab-content");
+
+                tabButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        const target = button.dataset.target;
+
+                        console.log("Before:", button.classList);
+                        // Remove active styles from all buttons
+                        tabButtons.forEach(btn => {
+                            btn.classList.remove("bg-gradient-to-r", "from-purple-500", "to-pink-500");
+                            btn.classList.add("bg-gray-700");
+                        });
+
+                        // Hide all content
+                        tabContents.forEach(content => content.classList.add("hidden"));
+
+                        console.log("Target ID:", target); // Debugging
+                        // Show selected content
+                        document.getElementById(target).classList.remove("hidden");
+
+                        // Add active styles to clicked button
+                        button.classList.add("bg-gradient-to-r", "from-purple-500", "to-pink-500");
+                        button.classList.remove("bg-gray-700");
+                    });
+                });
+            });
+
+        }
+
+        tabs();
+    </script>
 </body>
 
 </html>
