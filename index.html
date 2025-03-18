@@ -57,7 +57,7 @@
 
 
     <div
-        class="swiper-container w-1/2 h-1/2 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/90 hidden overflow-hidden rounded-lg">
+        class="swiper-container w-3/4 h-3/4 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/90 hidden overflow-hidden rounded-lg">
         <div id="swiper-wrapper" class="swiper-wrapper">
         </div>
         <div class="swiper-pagination w-10 h-10"></div>
@@ -73,7 +73,11 @@
         const _products = {
             bag: [
                 { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
+                { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
+                { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
             ],
             ornaments: [
                 { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
@@ -82,22 +86,20 @@
                 { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
                 { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
             ]
-        }
-    </script>
-
-    <script>
+        };
+        let swiper; // Declare swiper outside
 
         function products(type = 'bag') {
-
             const list = document.getElementById(type);
-            list.innerHTML = ''; // Clear old content before adding new cards
+            list.innerHTML = '';
 
-   
             const items = _products[type];
 
-            items.forEach(item => {
+            items.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'image-card bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform';
+                card.className = 'image-card bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform cursor-pointer';
+                card.dataset.type = type;
+                card.dataset.index = index; // Add data-index here
 
                 const img = document.createElement('img');
                 img.src = `${item.sort}/0.webp`;
@@ -124,19 +126,13 @@
             });
         }
 
-    </script>
+        function buildSwiper(item) {
 
-    <script>
-        const imageCards = document.querySelectorAll('.image-card');
-        const swiperContainer = document.querySelector('.swiper-container');
-        const closeButton = document.getElementById('close-swiper');
-        const swiperWrapper = document.getElementById('swiper-wrapper');
-        let swiper;
 
-        function buildSwiper(imagePath, count) {
+            const swiperWrapper = document.getElementById('swiper-wrapper');
             swiperWrapper.innerHTML = '';
-            const basePath = imagePath.substring(0, imagePath.lastIndexOf('/'));
-            for (let i = 1; i <= count; i++) {
+            const basePath = item.sort;
+            for (let i = 1; i <= item.count; i++) {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide', 'flex', 'justify-center', 'items-center');
                 const img = document.createElement('img');
@@ -164,35 +160,47 @@
             });
         }
 
-        imageCards.forEach((card, index) => {
-            card.addEventListener('click', () => {
+        function cardListeners() {
 
-                const { count } = _products[index];
-                const img = card.querySelector('img');
-                if (img) {
-                    buildSwiper(img.src, count);
-                    swiperContainer.classList.remove('hidden');
-                    swiperContainer.classList.add('flex');
-                }
+            const cards = document.querySelectorAll('.image-card');
+            const swiperContainer = document.querySelector('.swiper-container');
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const type = card.dataset.type;
+                    const index = parseInt(card.dataset.index);
+                    const item = _products[type][index];
+
+                    if (item) {
+                        buildSwiper(item);
+                        swiperContainer.classList.remove('hidden');
+                        swiperContainer.classList.add('flex');
+                    } else {
+                        console.error("Item not found");
+                    }
+                });
             });
-        });
+        }
 
-        closeButton.addEventListener('click', (event) => {
-            event.stopPropagation();
-            swiperContainer.classList.remove('flex');
-            swiperContainer.classList.add('hidden');
-        });
+        function swiperLinsteners() {
 
-        swiperContainer.addEventListener('click', (event) => {
-            if (event.target === swiperContainer) {
+            const swiperContainer = document.querySelector('.swiper-container');
+            const closeButton = document.getElementById('close-swiper');
+
+            closeButton.addEventListener('click', (event) => {
+                event.stopPropagation();
                 swiperContainer.classList.remove('flex');
                 swiperContainer.classList.add('hidden');
-            }
-        });
-    </script>
+            });
 
+            swiperContainer.addEventListener('click', (event) => {
+                if (event.target === swiperContainer) {
+                    swiperContainer.classList.remove('flex');
+                    swiperContainer.classList.add('hidden');
+                }
+            });
+        }
 
-    <script>
 
         function handleTabSwitch() {
             document.addEventListener("DOMContentLoaded", () => {
@@ -203,30 +211,29 @@
                     button.addEventListener("click", () => {
                         const target = button.dataset.target;
 
-                        // Remove active styles from all buttons
                         tabButtons.forEach(btn => {
                             btn.classList.remove("bg-gradient-to-r", "from-purple-500", "to-pink-500");
                             btn.classList.add("bg-gray-700");
                         });
 
-                        // Hide all content
-                        console.log(tabContents)
                         tabContents.forEach(content => content.classList.add("hidden"));
 
-                        console.log("Target ID:", target); // Debugging
                         products(target);
-                        // Show selected content
+                        cardListeners();                // Attach listeners after rendering
+                        swiperLinsteners();
                         document.getElementById(target).classList.remove("hidden");
 
-                        // Add active styles to clicked button
                         button.classList.add("bg-gradient-to-r", "from-purple-500", "to-pink-500");
                         button.classList.remove("bg-gray-700");
                     });
                 });
             });
-
         }
+
         products();
+        cardListeners();
+        swiperLinsteners();
+        /*above before dom loaded*/
         handleTabSwitch();
     </script>
 </body>
