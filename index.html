@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Showcase</title>
+    <title>Vestaa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
@@ -43,7 +43,7 @@
     </div>
 
 
-    <section class="w-[70%] m-auto" id="imageGrid">
+    <section class="w-[70%] m-auto">
         <div id="bag" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto">
             Bag Content
         </div>
@@ -70,45 +70,60 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
-        const imageData = [
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 5 },
-            { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
-            { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 5 },
-        ];
+        const _products = {
+            bag: [
+                { sort: './assets/images/bzd', title: 'Business Startup', desc: 'Development', count: 5 },
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
+            ],
+            ornaments: [
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
+            ],
+            notebook: [
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 },
+                { sort: './assets/images/zd', title: 'Another Project', desc: 'Design', count: 6 }
+            ]
+        }
+    </script>
 
-        const imageGrid = document.getElementById('ornaments');
-        imageData.forEach(item => {
-            const imageCard = document.createElement('div');
-            imageCard.className = 'image-card bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform';
+    <script>
 
-            const img = document.createElement('img');
-            img.src = `${item.sort}/0.webp`;
-            img.alt = item.title || 'Image';
-            img.className = 'w-full';
+        function products(type = 'bag') {
 
-            const textDiv = document.createElement('div');
-            textDiv.className = 'p-4';
+            const list = document.getElementById(type);
+            list.innerHTML = ''; // Clear old content before adding new cards
 
-            const titleH2 = document.createElement('h2');
-            titleH2.className = 'text-lg font-semibold';
-            titleH2.textContent = item.title || '';
+   
+            const items = _products[type];
 
-            const descP = document.createElement('p');
-            descP.className = 'text-gray-400';
-            descP.textContent = item.desc || '';
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'image-card bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform';
 
-            textDiv.appendChild(titleH2);
-            textDiv.appendChild(descP);
+                const img = document.createElement('img');
+                img.src = `${item.sort}/0.webp`;
+                img.alt = item.title || 'Image';
+                img.className = 'w-full';
 
-            imageCard.appendChild(img);
-            imageCard.appendChild(textDiv);
-            imageGrid.appendChild(imageCard);
-        });
+                const textDiv = document.createElement('div');
+                textDiv.className = 'p-4';
+
+                const titleH2 = document.createElement('h2');
+                titleH2.className = 'text-lg font-semibold';
+                titleH2.textContent = item.title || '';
+
+                const descP = document.createElement('p');
+                descP.className = 'text-gray-400';
+                descP.textContent = item.desc || '';
+
+                textDiv.appendChild(titleH2);
+                textDiv.appendChild(descP);
+
+                card.appendChild(img);
+                card.appendChild(textDiv);
+                list.appendChild(card);
+            });
+        }
+
     </script>
 
     <script>
@@ -152,7 +167,7 @@
         imageCards.forEach((card, index) => {
             card.addEventListener('click', () => {
 
-                const { count } = imageData[index];
+                const { count } = _products[index];
                 const img = card.querySelector('img');
                 if (img) {
                     buildSwiper(img.src, count);
@@ -179,7 +194,7 @@
 
     <script>
 
-        function tabs() {
+        function handleTabSwitch() {
             document.addEventListener("DOMContentLoaded", () => {
                 const tabButtons = document.querySelectorAll(".tab-btn");
                 const tabContents = document.querySelectorAll(".tab-content");
@@ -188,7 +203,6 @@
                     button.addEventListener("click", () => {
                         const target = button.dataset.target;
 
-                        console.log("Before:", button.classList);
                         // Remove active styles from all buttons
                         tabButtons.forEach(btn => {
                             btn.classList.remove("bg-gradient-to-r", "from-purple-500", "to-pink-500");
@@ -196,9 +210,11 @@
                         });
 
                         // Hide all content
+                        console.log(tabContents)
                         tabContents.forEach(content => content.classList.add("hidden"));
 
                         console.log("Target ID:", target); // Debugging
+                        products(target);
                         // Show selected content
                         document.getElementById(target).classList.remove("hidden");
 
@@ -210,8 +226,8 @@
             });
 
         }
-
-        tabs();
+        products();
+        handleTabSwitch();
     </script>
 </body>
 
