@@ -20,8 +20,8 @@
 </head>
 
 
-<body class="bg-black text-white">
-    <header class="flex justify-between items-center p-5 bg-black border-b border-gray-700">
+<body class="bg-slate-900 text-white">
+    <header class="flex justify-between items-center p-5 border-b border-gray-700">
         <h1 class="text-2xl font-bold">LOGO</h1>
         <nav>
             <ul class="flex space-x-6">
@@ -45,19 +45,19 @@
 
     <section class="w-[70%] m-auto">
         <div id="bag" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto">
-            Bag Content
+
         </div>
         <div id="ornaments" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto hidden">
 
         </div>
         <div id="notebook" class="tab-content w-full grid lg:grid-cols-3 xl:grid-cols-5 gap-6 p-6 m-auto hidden">
-            Tab 3 Content
+
         </div>
     </section>
 
 
     <div
-        class="swiper-container w-3/4 h-3/4 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/90 hidden overflow-hidden rounded-lg">
+        class="swiper-container w-3/4 h-3/4 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600/80 hidden overflow-hidden rounded-lg">
         <div id="swiper-wrapper" class="swiper-wrapper">
         </div>
         <div class="swiper-pagination w-10 h-10"></div>
@@ -97,7 +97,7 @@
 
             items.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'image-card bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform cursor-pointer';
+                card.className = 'image-card bg-gray-700 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition transform cursor-pointer';
                 card.dataset.type = type;
                 card.dataset.index = index; // Add data-index here
 
@@ -203,9 +203,14 @@
 
 
         function handleTabSwitch() {
+
             document.addEventListener("DOMContentLoaded", () => {
                 const tabButtons = document.querySelectorAll(".tab-btn");
                 const tabContents = document.querySelectorAll(".tab-content");
+                // Initial setup for the 'bag' tab
+                products('bag');
+                cardListeners();
+                swiperLinsteners();
 
                 tabButtons.forEach(button => {
                     button.addEventListener("click", () => {
@@ -230,10 +235,7 @@
             });
         }
 
-        products();
-        cardListeners();
-        swiperLinsteners();
-        /*above before dom loaded*/
+
         handleTabSwitch();
     </script>
 </body>
