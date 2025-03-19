@@ -74,6 +74,7 @@
             bag: [
                 { sort: './assets/images/bag/bzd01', title: 'Textile Bag', desc: 'Fashionable Eco-friendly', count: 5 },
                 { sort: './assets/images/bag/zd01', title: 'Cardboard Bag', desc: 'Trendy Designer', count: 6 },
+                { sort: './assets/images/public', title: 'Customization Process', desc: 'We Make Fun', count: 1 },
                 { sort: './assets/images/bag/zd02', title: 'Cardboard Bag', desc: 'Classic Elegant', count: 5 },
                 { sort: './assets/images/bag/fbd01', title: 'Canvas Bag', desc: 'Durable Versatile', count: 4 },
                 { sort: './assets/images/bag/fbd02', title: 'Canvas Bag', desc: 'Classic style', count: 6 },
@@ -83,11 +84,18 @@
 
             ],
             ornaments: [
-                { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 6 }
+                { sort: './assets/images/ornament/bxt01', title: 'Crystal Fridge Magnet', desc: 'Company Logo Show ', count: 6 },
+                { sort: './assets/images/ornament/ysk01', title: 'Metal Keychain', desc: 'Stylish Impressive ', count: 3 },
+                { sort: './assets/images/public', title: 'Customization Process', desc: 'We Make Fun', count: 1 },
+                { sort: './assets/images/ornament/ykl01', title: 'Acrylic Night Light', desc: 'Illuminating Sleek', count: 8 },
+                { sort: './assets/images/ornament/ysk02', title: 'Crystal Keychain', desc: 'Elegant Durable', count: 4 },
+                { sort: './assets/images/ornament/hz01', title: 'Commemorative Badge', desc: 'Symbolic Memorial', count: 6 },
+                { sort: './assets/images/ornament/zsq01', title: 'Bamboo Bookmark', desc: 'Eco-friendly Fashionable', count: 4 },
+                { sort: './assets/images/ornament/zls01', title: 'Tibetan Tassel', desc: 'Company Logo Show', count: 7 }
             ],
             notebook: [
                 { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 6 },
-                { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 6 }
+                { sort: './assets/images/bag/zd01', title: 'Another Project', desc: 'Design', count: 4 }
             ]
         };
         let swiper; // Declare swiper outside
@@ -135,7 +143,7 @@
             const swiperWrapper = document.getElementById('swiper-wrapper');
             swiperWrapper.innerHTML = '';
             const basePath = item.sort;
-            for (let i = 1; i <= item.count; i++) {
+            for (let i = 0; i <= item.count; i++) {
                 const slide = document.createElement('div');
                 slide.classList.add('swiper-slide', 'flex', 'justify-center', 'items-center');
                 const img = document.createElement('img');
